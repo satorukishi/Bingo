@@ -11,43 +11,46 @@ namespace Bingo
 {
     public partial class frmSobre : Form
     {
-        private string[] args;
-        public frmSobre()
+        private IWin32Window _owner;
+
+        public frmSobre(IWin32Window owner)
         {
+            _owner = owner;
             InitializeComponent();
-        }
-        public frmSobre(string[] args):this()
-        {
-            this.args = args;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             Visible = false;
-            frmBingo bingo = new frmBingo(args);
-            bingo.ShowDialog();
             this.Close();
         }
 
         private void frmSobre_Load(object sender, EventArgs e)
         {
             lblTexto.Text =
-@"Bingo - Versão 2014 (Compilação 1.0.1.2)
+@"Bingo - Versão 2023 (Compilação 1.0.2.0)
 Licenciado para:
-
 Interkaikans Beneficente,
-
-Oroku Tabaru Yuwa-Kai de Vila Carrão e
-
-Seinenkai de Vila Carrão.";
+Oroku Tabaru Yuwa-Kai de Vila Carrão,
+Seinenkai de Vila Carrão e
+Seinen-bu Mogi";
         }
 
         private void btnOK_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 27)
-            {
 
+            if (e.KeyValue == 27) // Esc
+            {
                 this.Close();
+            }
+        }
+
+        private void frmSobre_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_owner == null)
+            {
+                frmBingo bingo = new frmBingo();
+                bingo.ShowDialog();
             }
         }
     }

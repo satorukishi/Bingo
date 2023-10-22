@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using cm = System.Configuration.ConfigurationManager;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Bingo
 {
@@ -17,7 +15,7 @@ namespace Bingo
         private static Color corBolaAtual = Color.Red;
         private static Color corBolaOculta = Color.LightGray;
         private static Color corBolaJaSelecionada = Color.Black;
-        private System.Windows.Forms.Label _ultimaBolaSorteada;
+        private Label _ultimaBolaSorteada;
         private List<Label> _bolasB = new List<Label>(15);
         private List<Label> _bolasI = new List<Label>(15);
         private List<Label> _bolasN = new List<Label>(15);
@@ -25,18 +23,14 @@ namespace Bingo
         private List<Label> _bolasO = new List<Label>(15);
         private int _posicaoPatrocinio = 0;
 
+        private List<string> _lstBolasSorteadas = new List<string>();
         private List<Image> _lstPatrocinadores;
 
         public frmBingo()
         {
-            InitializeComponent();
-        }
-
-        public frmBingo(string[] args)
-            : this()
-        {
             try
             {
+                InitializeComponent();
                 BackgroundImage = Image.FromFile(Path.Combine(Application.StartupPath, string.Format("img\\bg_{0}.png", cm.AppSettings["nome_cliente"])));
             }
             catch (Exception)
@@ -46,36 +40,39 @@ namespace Bingo
         }
 
         #region Private Methods
-        private void AnimarBola(Label bolaSelecionada_, Animacao animacao_)
+        private void AnimarBola(Label bolaSelecionada, Animacao animacao)
         {
-            switch (animacao_)
+            switch (animacao)
             {
                 case Animacao.Desmarcar:
-                    bolaSelecionada_.ForeColor = corBolaOculta;
+                    bolaSelecionada.ForeColor = corBolaOculta;
                     break;
                 case Animacao.Focar:
-                    bolaSelecionada_.ForeColor = corBolaAtual;
+                    bolaSelecionada.ForeColor = corBolaAtual;
                     break;
                 case Animacao.Marcar:
-                    bolaSelecionada_.ForeColor = corBolaJaSelecionada;
+                    bolaSelecionada.ForeColor = corBolaJaSelecionada;
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Animação não suportada");
             }
         }
 
-        private void MarcarBola(Label bolaSelecionada_)
+        private void MarcarBola(Label bolaSelecionada)
         {
             if (_ultimaBolaSorteada != null)
             {
                 AnimarBola(_ultimaBolaSorteada, Animacao.Marcar);
             }
+            
+            _lstBolasSorteadas.Add(bolaSelecionada.Text);
 
-            _ultimaBolaSorteada = bolaSelecionada_;
-            AnimarBola(bolaSelecionada_, Animacao.Focar);
+            _ultimaBolaSorteada = bolaSelecionada;
+            AnimarBola(bolaSelecionada, Animacao.Focar);
 
-            lblUltimaBola.Text = bolaSelecionada_.Text;
+            lblUltimaBola.Text = bolaSelecionada.Text;
             AnimarBola(lblUltimaBola, Animacao.Focar);
+
         }
 
         private void CentralizarBINGO()
@@ -102,15 +99,24 @@ namespace Bingo
 
         private void DesmarcarBola(Label bolaSelecionada_)
         {
-            //Como a última bola selecionada será cancelada, então fica null
-            if (bolaSelecionada_ == _ultimaBolaSorteada)
-            {
-                _ultimaBolaSorteada = null;
-                lblUltimaBola.Text = "00";
-                AnimarBola(lblUltimaBola, Animacao.Desmarcar);
-            }
             AnimarBola(bolaSelecionada_, Animacao.Desmarcar);
 
+            _lstBolasSorteadas.Remove(bolaSelecionada_.Text);
+
+            string redoUltimaBola;
+
+            if (_lstBolasSorteadas.Count == 0)
+            {
+                _ultimaBolaSorteada = null;
+                redoUltimaBola = "00";
+                AnimarBola(lblUltimaBola, Animacao.Desmarcar);
+            }
+            else
+            {
+                redoUltimaBola = _lstBolasSorteadas.Last();
+            }
+
+            lblUltimaBola.Text = redoUltimaBola;
         }
 
         private void FecharBingo(FormClosingEventArgs e)
@@ -139,6 +145,7 @@ namespace Bingo
             _bolasB.Add(lblBola13);
             _bolasB.Add(lblBola14);
             _bolasB.Add(lblBola15);
+
             _bolasI.Add(lblBola16);
             _bolasI.Add(lblBola17);
             _bolasI.Add(lblBola18);
@@ -154,6 +161,7 @@ namespace Bingo
             _bolasI.Add(lblBola28);
             _bolasI.Add(lblBola29);
             _bolasI.Add(lblBola30);
+
             _bolasN.Add(lblBola31);
             _bolasN.Add(lblBola32);
             _bolasN.Add(lblBola33);
@@ -169,6 +177,7 @@ namespace Bingo
             _bolasN.Add(lblBola43);
             _bolasN.Add(lblBola44);
             _bolasN.Add(lblBola45);
+
             _bolasG.Add(lblBola46);
             _bolasG.Add(lblBola47);
             _bolasG.Add(lblBola48);
@@ -184,6 +193,7 @@ namespace Bingo
             _bolasG.Add(lblBola58);
             _bolasG.Add(lblBola59);
             _bolasG.Add(lblBola60);
+
             _bolasO.Add(lblBola61);
             _bolasO.Add(lblBola62);
             _bolasO.Add(lblBola63);
@@ -221,7 +231,11 @@ namespace Bingo
 
         private void NovaPartida()
         {
+            MudarPatrocinador();
+
+            _lstBolasSorteadas.Clear();
             lblUltimaBola.ForeColor = corBolaOculta;
+            lblUltimaBola.Text = "00";
 
             _ultimaBolaSorteada = null;
             foreach (Label bola in _bolasB)
@@ -250,16 +264,8 @@ namespace Bingo
         private void frmBingo_Load(object sender, EventArgs e)
         {
             InicializarBolas();
-            NovaPartida();
-            mnuPrincipal.Visible = false;
-
-            IniciarlizarPatrocinadore();
-        }
-
-        private void IniciarlizarPatrocinadore()
-        {
             CarregarPatrocinadores();
-            MudarPatrocinador();
+            NovaPartida();
         }
 
         private void MudarPatrocinador()
@@ -373,7 +379,7 @@ namespace Bingo
 
         private void mnuSobre_Click(object sender, EventArgs e)
         {
-            frmSobre telaSobre = new frmSobre();
+            frmSobre telaSobre = new frmSobre(this);
             telaSobre.Show();
         }
 

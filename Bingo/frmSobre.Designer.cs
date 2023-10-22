@@ -39,9 +39,10 @@
             // btnOK
             // 
             this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(292, 197);
+            this.btnOK.Location = new System.Drawing.Point(438, 303);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(74, 25);
+            this.btnOK.Size = new System.Drawing.Size(111, 38);
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -52,7 +53,8 @@
             // 
             this.picSatoru.BackColor = System.Drawing.Color.Transparent;
             this.picSatoru.Image = global::Bingo.Properties.Resources.fotoSobre;
-            this.picSatoru.Location = new System.Drawing.Point(16, 15);
+            this.picSatoru.Location = new System.Drawing.Point(24, 23);
+            this.picSatoru.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.picSatoru.Name = "picSatoru";
             this.picSatoru.Size = new System.Drawing.Size(60, 60);
             this.picSatoru.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -63,9 +65,10 @@
             // 
             this.lblTexto.AutoSize = true;
             this.lblTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.lblTexto.Location = new System.Drawing.Point(16, 84);
+            this.lblTexto.Location = new System.Drawing.Point(24, 129);
+            this.lblTexto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTexto.Name = "lblTexto";
-            this.lblTexto.Size = new System.Drawing.Size(39, 15);
+            this.lblTexto.Size = new System.Drawing.Size(56, 22);
             this.lblTexto.TabIndex = 2;
             this.lblTexto.Text = "Bingo";
             // 
@@ -73,27 +76,30 @@
             // 
             this.lblSatoru.AutoSize = true;
             this.lblSatoru.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold);
-            this.lblSatoru.Location = new System.Drawing.Point(91, 15);
+            this.lblSatoru.Location = new System.Drawing.Point(136, 23);
+            this.lblSatoru.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSatoru.Name = "lblSatoru";
-            this.lblSatoru.Size = new System.Drawing.Size(280, 16);
+            this.lblSatoru.Size = new System.Drawing.Size(121, 24);
             this.lblSatoru.TabIndex = 3;
-            this.lblSatoru.Text = "Satoru Kishi - Seinenkai de Vila Carrão.";
+            this.lblSatoru.Text = "Satoru Kishi";
             // 
             // frmSobre
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(380, 231);
+            this.ClientSize = new System.Drawing.Size(570, 355);
             this.Controls.Add(this.lblSatoru);
             this.Controls.Add(this.lblTexto);
             this.Controls.Add(this.picSatoru);
             this.Controls.Add(this.btnOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSobre";
             this.Text = "Sobre o Bingo";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSobre_FormClosing);
             this.Load += new System.EventHandler(this.frmSobre_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picSatoru)).EndInit();
             this.ResumeLayout(false);

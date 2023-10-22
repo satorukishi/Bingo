@@ -15,7 +15,7 @@ namespace Bingo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmSobre(args));
+            Application.Run(new frmSobre(null));
         }
     }
 }

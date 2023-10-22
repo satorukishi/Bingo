@@ -165,6 +165,9 @@
     <Content Include="img\bg_ikb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\bg_mogi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\bg_seinenkai.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -177,6 +180,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="img\patrocinio\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomComponent\Bingo.CustomComponent.csproj">
+      <Project>{72426282-11dc-4d42-ac86-db948eb43ed6}</Project>
+      <Name>Bingo.CustomComponent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
